@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Relap Widget</title>
+    <link href="./favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+    body {
+        padding: 0 10%;
+        font-family: Roboto, sans-serif;
+    }
+
+    @media all and (orientation: portrait) {
+        body {
+            padding: 5px;
+        }
+    }
+
+    label {
+        display: inline-block;
+        width: 10%;
+        flex-shrink: 0;
+        font-size: 14px;
+    }
+
+    .relapForm {
+        margin-bottom: 20px;
+        background: #eee;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .requiredFields {
+        background-color: #99fd9b;
+        margin: -10px -10px 10px;
+        padding: 10px 10px 1px;
+        border-radius: 8px;
+    }
+
+    .relapInput {
+        width: 80%;
+        color: #555;
+        flex-grow: 1;
+    }
+
+    .suggestSpan {
+        color: #339;
+        font-size: 10px;
+        cursor: pointer;
+        border-bottom: 1px dashed #339;
+        margin-right: 10px;
+    }
+
+    .suggestWrapper {
+        margin-top: -5px;
+        margin-left: 10%;
+        padding-left: 3px;
+    }
+
+    .relapInputWrapper {
+        margin-bottom: 10px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .lorem {
+        font-size: 22px;
+        margin: 10px;
+        color: #999;
+    }
+
+    .widgetMark {
+        color: #333;
+    }
+
+    .relap-runtime-iframe {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+        visibility: hidden;
+    }
+
+</style>
+
+<form action="" class="relapForm">
+    <div class="requiredFields">
+        <div class="relapInputWrapper">
+            <label for="tokenInput">Токен: </label>
+            <input
+                    class="relapInput"
+                    id="tokenInput"
+                    name="token"
+                    placeholder="token"
+            />
+        </div>
+        <div class="relapInputWrapper">
+            <label for="urlInput">Url: </label>
+            <input class="relapInput" id="urlInput" name="url" placeholder="url"/>
+        </div>
+        <div class="relapInputWrapper" style="flex-wrap: nowrap">
+            <label for="widgetIdInput">widgetID: </label>
+            <input
+                    class="relapInput"
+                    id="widgetIdInput"
+                    name="widgetId"
+                    placeholder="widgetID"
+            />
+        </div>
+    </div>
+    <div class="relapInputWrapper">
+        <label for="relapJsSrcInput">relap.js src: </label>
+        <input
+                class="relapInput"
+                id="relapJsSrcInput"
+                name="relapJsSrc"
+                placeholder="https://relap.io/v7/relap.js (не трогать, если не знаешь зачем)"
+        />
+        <div class="suggestWrapper">
+            <span class="suggestSpan" onclick="relapJsSrcInput.value=this.innerText">https://relap.io/v7/relap.js</span>
+            <span class="suggestSpan"
+                  onclick="relapJsSrcInput.value=this.innerText">https://pre.relap.io/v7/relap.js</span>
+            <span class="suggestSpan"
+                  onclick="relapJsSrcInput.value=this.innerText">https://pre2.relap.io/v7/relap.js</span>
+            <span class="suggestSpan"
+                  onclick="relapJsSrcInput.value=this.innerText">http://localhost:3010/dist/relap.js</span>
+        </div>
+    </div>
+    <div class="relapInputWrapper">
+        <label for="campaignForceLinkInput">force link: </label>
+        <input
+                class="relapInput"
+                id="campaignForceLinkInput"
+                name="campaignForceLink"
+                placeholder="61430 - это тестовый котик инимадж"
+        />
+        <div class="suggestWrapper">
+            <span class="suggestSpan" onclick="campaignForceLinkInput.value=this.innerText">https://admin.relap.io/admin/force_campaign/74260</span>
+            <span class="suggestSpan" onclick="campaignForceLinkInput.value=this.innerText">https://a-schmidt-admindev.relap.io/admin/force_campaign/61430</span>
+        </div>
+    </div>
+    <div class="relapInputWrapper">
+        <label for="imgSrcInput">img src: </label>
+        <input
+                class="relapInput"
+                id="imgSrcInput"
+                name="imgSrc"
+                placeholder="src картинки для imageOverlay"
+        />
+    </div>
+
+    <button type="submit">Применить</button>
+</form>
+
+<p class="lorem widgetMark">Виджет ниже. Если его там нет - проверьте параметры</p>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<p class="lorem widgetMark">&darr; widget &darr;</p>
+
+<div class="imgWrapper lorem" id="widgetWrapper">
+    <div class="js-relap-anchor js-relap-form-anchor"></div>
+</div>
+
+<p class="lorem widgetMark">&uarr; widget &uarr;</p>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, deleniti mollitia officia omnis
+    optio pariatur suscipit ullam! Accusantium alias at corporis dolorem maxime omnis quos vero voluptatibus? Animi, et,
+    molestiae?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, deleniti mollitia officia omnis
+    optio pariatur suscipit ullam! Accusantium alias at corporis dolorem maxime omnis quos vero voluptatibus? Animi, et,
+    molestiae?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, deleniti mollitia officia omnis
+    optio pariatur suscipit ullam! Accusantium alias at corporis dolorem maxime omnis quos vero voluptatibus? Animi, et,
+    molestiae?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<div class="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores assumenda at
+    cupiditate deleniti dicta distinctio dolor, dolorum eaque enim fugiat id impedit nam non nulla quo sequi tempora
+    voluptates?
+</div>
+
+<script>
+    (function () {
+        const queryValues = {};
+
+        for ([key, value] of new URLSearchParams(window.location.search)) {
+            queryValues[key] = value;
+        }
+
+        const widgetWrapper = document.querySelector("#widgetWrapper");
+
+        const widgetIdInput = document.querySelector("#widgetIdInput");
+        const urlInput = document.querySelector("#urlInput");
+        const tokenInput = document.querySelector("#tokenInput");
+        const relapJsSrcInput = document.querySelector("#relapJsSrcInput");
+        const imgSrcInput = document.querySelector("#imgSrcInput");
+        const campaignInput = document.querySelector("#campaignForceLinkInput");
+
+        const token = queryValues.token;
+        const widgetId = queryValues.widgetId;
+        const url = decodeURIComponent(queryValues.url?.includes('://') ? queryValues.url : `https://${queryValues.url}`);
+        const relapUrl =
+            decodeURIComponent(queryValues.relapJsSrc) ||
+            "https://relap.io/v7/relap.js";
+        const imgSrc = queryValues.imgSrc && queryValues.imgSrc !== 'undefined' ? decodeURIComponent(queryValues.imgSrc) : '';
+        const campaignForceLink = decodeURIComponent(queryValues.campaignForceLink) || '';
+
+        tokenInput.value = token;
+        widgetIdInput.value = widgetId;
+        urlInput.value = url;
+        relapJsSrcInput.value = relapUrl;
+        imgSrcInput.value = imgSrc;
+        campaignInput.value = campaignForceLink;
+
+        if (imgSrc && imgSrc !== "" && imgSrc !== 'undefined') {
+            const image = document.createElement("IMG");
+            image.src = imgSrc;
+            image.style.maxWidth = "700px";
+            widgetWrapper.append(image);
+        }
+
+        if (campaignForceLink && campaignForceLink !== "") {
+            (new Image).src = campaignForceLink;
+        }
+
+        const targetDiv = document.querySelector(".js-relap-anchor");
+
+        (function () {
+            var w = window;
+            var d = w.document;
+
+            w.relapTasks = w.relapTasks || [];
+
+            w.relapTasks.push(function (api) {
+                function addWidget() {
+                    var anchorEl = targetDiv;
+                    if (!anchorEl) {
+                        console.log('no anchor el found, exit');
+                        return;
+                    }
+                    api.addWidget({
+                        cfgId: widgetId,
+                        anchorEl: anchorEl,
+                        events: {
+                            onNoContent: function (obj) {
+                                console.log('!!!!! relap noContent', obj);
+                                anchorEl.remove();
+                            },
+                            onReady: function (obj) {
+                                console.log('!!!!! relap Ready', obj);
+                            },
+                            onFollow: function (obj) {
+                                console.log('!!!!! relap Follow', obj);
+                            }
+                        },
+                    }).catch((e)=>{
+                        console.log('!!!!! error', e);
+                    });
+                }
+
+                if (api.isReady) return addWidget();
+
+                api.init({
+                    token: token,
+                    url: new URL(url),
+                })
+                    .then(addWidget);
+            });
+
+
+            if (!d.querySelector('.relap-runtime-iframe')) {
+                const iframe = d.createElement('iframe');
+                iframe.className = 'relap-runtime-iframe';
+                iframe.srcdoc = '<script src="' + relapUrl + '" data-relap-token="' + token + '" + data-relap-url="' + url + '"><' + '/script>';
+                d.body.appendChild(iframe);
+            }
+        })();
+    })();
+</script>
+
+</body>
+</html>
